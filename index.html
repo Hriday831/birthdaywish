@@ -1,0 +1,1236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>শুভ ২১তম জন্মদিন, কাকলি! 🌹</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Hind+Siliguri:wght@400;600;700&family=Montserrat:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+  <style>
+    body {
+      font-family: 'Montserrat', sans-serif;
+      background: radial-gradient(circle at center, #7f1d1d 0%, #450a0a 50%, #1c0202 100%);
+      overflow-x: hidden;
+      color: #fef08a;
+    }
+    .font-bengali {
+      font-family: 'Hind Siliguri', sans-serif;
+    }
+    .font-romantic {
+      font-family: 'Great Vibes', cursive;
+    }
+    .font-serif-romantic {
+      font-family: 'Playfair Display', serif;
+    }
+
+    .page-layer {
+      transition: opacity 0.8s ease-in-out, transform 0.8s ease-in-out;
+    }
+    .hidden-layer {
+      opacity: 0;
+      pointer-events: none;
+      transform: scale(0.95) translateY(30px);
+      position: absolute;
+      width: 100%;
+      height: 0;
+      overflow: hidden;
+    }
+    .active-layer {
+      opacity: 1;
+      pointer-events: auto;
+      transform: scale(1) translateY(0);
+      position: relative;
+      height: auto;
+    }
+
+    @media (max-width: 400px) {
+      .envelope {
+        width: 260px !important;
+        height: 160px !important;
+      }
+      .envelope::before {
+        border-left-width: 130px !important;
+        border-right-width: 130px !important;
+        border-top-width: 80px !important;
+      }
+      .card-letter {
+        width: 230px !important;
+        height: 140px !important;
+      }
+      .envelope.open .card-letter {
+        transform: translateY(-115px) scale(1) !important;
+      }
+    }
+
+    @media (max-width: 350px) {
+      .envelope {
+        width: 230px !important;
+        height: 145px !important;
+      }
+      .envelope::before {
+        border-left-width: 115px !important;
+        border-right-width: 115px !important;
+        border-top-width: 72px !important;
+      }
+      .card-letter {
+        width: 200px !important;
+        height: 125px !important;
+      }
+      .envelope.open .card-letter {
+        transform: translateY(-105px) scale(0.95) !important;
+      }
+    }
+
+    @media (max-width: 380px) {
+      .polaroid-card {
+        width: 260px !important;
+        height: 330px !important;
+      }
+      .polaroid-card img {
+        height: 200px !important;
+      }
+    }
+
+    .polaroid-card {
+      transition: transform 1.2s cubic-bezier(0.25, 1, 0.5, 1), opacity 1s ease-in-out;
+      will-change: transform, opacity;
+    }
+
+    @keyframes polaroidGlow {
+      0%, 100% { border-color: #eab308; box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3), 0 0 10px rgba(234, 179, 8, 0.3); }
+      50% { border-color: #fef08a; box-shadow: 0 20px 35px -5px rgba(0, 0, 0, 0.4), 0 0 25px rgba(234, 179, 8, 0.7); }
+    }
+    .active-glow {
+      will-change: transform, opacity, border-color, box-shadow;
+      animation: polaroidGlow 3s infinite ease-in-out;
+      z-index: 35 !important;
+    }
+
+    .garland-string {
+      background-image: radial-gradient(circle, #f59e0b 6px, #ea580c 10px, transparent 12px);
+      background-size: 24px 24px;
+      height: 24px;
+    }
+
+    .envelope-wrapper {
+      perspective: 1200px;
+    }
+    .envelope {
+      position: relative;
+      background: #b91c1c;
+      box-shadow: 0 20px 45px rgba(234, 88, 12, 0.45);
+      transition: transform 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      border: 3px solid #eab308;
+    }
+    .envelope.open {
+      transform: translateY(110px) rotate(-1deg);
+    }
+    .envelope::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      z-index: 2;
+      border-left: 160px solid transparent;
+      border-right: 160px solid transparent;
+      border-top: 110px solid #991b1b;
+      transform-origin: top;
+      transition: transform 0.5s 0.4s ease-in-out, z-index 0.2s 0.4s;
+      width: 0;
+      height: 0;
+    }
+    @media (max-width: 640px) {
+      .envelope::before {
+        border-left-width: 130px;
+        border-right-width: 130px;
+        border-top-width: 90px;
+      }
+    }
+    .envelope.open::before {
+      transform: rotateX(180deg);
+      z-index: 0;
+    }
+    .card-letter {
+      transition: transform 0.7s 0.8s cubic-bezier(0.19, 1, 0.22, 1);
+    }
+    .envelope.open .card-letter {
+      transform: translateY(-135px) scale(1.02);
+    }
+
+    .flip-card {
+      background-color: transparent;
+      perspective: 1000px;
+    }
+    .flip-card-inner {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      text-align: center;
+      transition: transform 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+      transform-style: preserve-3d;
+    }
+    .flip-card.flipped .flip-card-inner {
+      transform: rotateY(180deg);
+    }
+    .flip-card-front, .flip-card-back {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      -webkit-backface-visibility: hidden;
+      backface-visibility: hidden;
+      border-radius: 1.5rem;
+      border: 2px solid #ca8a04;
+    }
+    .flip-card-back {
+      transform: rotateY(180deg);
+    }
+
+    @keyframes flyUpEmoji {
+      0% {
+        transform: translate(0, 0) scale(0.4) rotate(0deg);
+        opacity: 0;
+      }
+      10% {
+        opacity: 1;
+        transform: translate(var(--sway-x-start), -10vh) scale(0.9) rotate(var(--rot-start));
+      }
+      100% {
+        transform: translate(var(--sway-x-end), -105vh) scale(1.1) rotate(var(--rot-end));
+        opacity: 0;
+      }
+    }
+    .flying-love-emoji {
+      position: fixed;
+      pointer-events: none;
+      animation: flyUpEmoji var(--fly-duration) cubic-bezier(0.1, 0.8, 0.3, 1) forwards;
+      z-index: 100;
+      user-select: none;
+    }
+
+    /* Floating Heart Keyframe for small background hearts */
+    @keyframes floatHeart {
+      0% {
+        transform: translateY(100vh) scale(0) rotate(0deg);
+        opacity: 0;
+      }
+      10% {
+        opacity: 0.8;
+      }
+      90% {
+        opacity: 0.8;
+      }
+      100% {
+        transform: translateY(-10vh) scale(1) rotate(360deg);
+        opacity: 0;
+      }
+    }
+    .floating-heart {
+      position: fixed;
+      bottom: -50px;
+      pointer-events: none;
+      animation: floatHeart 7s linear infinite;
+      z-index: 5;
+    }
+    .glow-gold {
+      text-shadow: 0 0 10px rgba(234, 179, 8, 0.8), 0 0 20px rgba(245, 158, 11, 0.5);
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col justify-between selection:bg-amber-800 selection:text-amber-100">
+  <canvas id="threeCanvas" class="fixed inset-0 w-full h-full pointer-events-none z-0"></canvas>
+  <div class="fixed top-0 left-0 w-full z-40 pointer-events-none">
+    <div class="garland-string w-full"></div>
+    <div class="flex justify-around -mt-1.5">
+      <svg class="w-full h-12 text-amber-500 fill-current opacity-90" viewBox="0 0 1200 40" preserveAspectRatio="none">
+        <path d="M0,0 Q150,45 300,0 Q450,45 600,0 Q750,45 900,0 Q1050,45 1200,0" fill="none" stroke="#ea580c" stroke-width="4"></path>
+        <path d="M0,0 Q150,30 300,0 Q450,30 600,0 Q750,30 900,0 Q1050,30 1200,0" fill="none" stroke="#f59e0b" stroke-width="4"></path>
+      </svg>
+    </div>
+  </div>
+  <div class="fixed top-12 sm:top-20 left-2 right-2 sm:left-auto sm:right-4 z-50 flex flex-row sm:flex-col justify-end items-center flex-wrap gap-1.5 sm:gap-2 pointer-events-none">
+    <button id="musicToggle" class="pointer-events-auto bg-gradient-to-r from-amber-500 to-red-600 text-white font-semibold hover:from-amber-600 hover:to-red-700 px-3 py-1.5 sm:px-4 sm:py-2 rounded-full shadow-xl flex items-center gap-1.5 sm:gap-2 border border-yellow-300 focus:outline-none transition-transform active:scale-95" title="Play Traditional Flute Melody">
+      <i data-lucide="music" class="w-3.5 h-3.5 sm:w-4 sm:h-4 animate-spin"></i>
+      <span class="text-[10px] sm:text-xs font-bengali">জন্মদিন সুর 🎵</span>
+    </button>
+  </div>
+  <div id="customAlert" class="fixed top-6 md:top-8 left-1/2 -translate-x-1/2 z-50 transform -translate-y-24 opacity-0 transition-all duration-500 pointer-events-none bg-gradient-to-r from-yellow-500 via-red-600 to-red-800 text-yellow-100 px-4 py-2.5 sm:px-6 sm:py-3.5 rounded-xl sm:rounded-full shadow-2xl font-bold flex items-center justify-center gap-2 sm:gap-3 border-2 border-yellow-300 w-[92%] sm:w-auto max-w-[340px] sm:max-w-lg">
+    <span class="text-lg sm:text-2xl animate-bounce flex-shrink-0">✨</span>
+    <span id="alertMessage" class="font-bengali text-xs sm:text-sm tracking-wide text-center leading-relaxed">শুভ শুভ জন্মতিথি!</span>
+    <span class="text-lg sm:text-2xl animate-bounce flex-shrink-0">✨</span>
+  </div>
+  <main class="flex-grow flex items-center justify-center py-24 px-4 md:px-8 relative z-10 w-full max-w-5xl mx-auto">
+    <div id="layer-envelope" class="page-layer active-layer w-full flex flex-col items-center">
+      <div class="text-center mb-8 max-w-2xl bg-black/40 backdrop-blur-md p-6 rounded-3xl border border-yellow-500/30">
+        <div class="w-16 h-16 mx-auto mb-4 fill-current text-yellow-400">
+          <svg viewBox="0 0 100 100">
+            <circle cx="50" cy="50" r="40" fill="none" stroke="currentColor" stroke-width="2" stroke-dasharray="5,5"/>
+            <path d="M50 10 Q60 35 50 45 Q40 35 50 10 Z M50 90 Q60 65 50 55 Q40 65 50 90 Z" fill="currentColor"/>
+            <path d="M10 50 Q35 40 45 50 Q35 60 10 50 Z M90 50 Q65 40 55 50 Q65 60 90 50 Z" fill="currentColor"/>
+            <circle cx="50" cy="50" r="10" fill="currentColor"/>
+          </svg>
+        </div>
+        <span class="text-xs font-bold tracking-widest text-amber-300 uppercase block mb-1">শুভ ২১তম জন্মদিন 🌹</span>
+        <h1 class="font-bengali text-4xl md:text-6xl text-yellow-400 font-bold mb-3 glow-gold">প্রিয় কাকলি সেন</h1>
+        <p class="text-red-200 text-sm md:text-base italic font-bengali">
+            আজকের এই পবিত্র শুভ লগ্নে আমার সমস্ত হৃদয় উজাড় করে ভালোবাসা আর আশীর্বাদ পাঠালাম। খামটি খুলে ভেতরে প্রবেশ করো, আমার রানী। 💖
+        </p>
+      </div>
+      <div class="envelope-wrapper flex items-center justify-center w-full max-w-sm h-64 relative mb-8 cursor-pointer" onclick="openEnvelope()">
+        <div id="envelope" class="envelope w-72 h-44 sm:w-80 sm:h-48 rounded-b-xl flex items-center justify-center relative">
+          <div id="cardLetter" class="card-letter absolute bottom-2 w-64 h-40 sm:w-72 sm:h-44 bg-amber-50 rounded-xl shadow-inner p-4 flex flex-col justify-between items-center text-center border-2 border-red-500">
+            <div class="my-auto">
+              <span class="font-bengali text-xl text-red-700 font-bold block">শুভ জন্মতিথি, কাকলি! ✨</span>
+              <p class="text-[10px] text-amber-900 mt-2 font-semibold uppercase tracking-wider">07.06.2026 &bull; Milestone 21</p>
+            </div>
+            <div class="flex items-center gap-1.5 text-red-600 animate-pulse">
+              <span class="text-lg">🐚</span>
+              <span class="text-xs font-bold font-bengali tracking-widest text-red-700">খামটি খোলো</span>
+              <span class="text-lg">🐚</span>
+            </div>
+          </div>
+          <div id="waxSeal" class="absolute z-20 top-0 -translate-y-1/2 flex items-center justify-center bg-gradient-to-br from-amber-400 to-yellow-600 text-red-950 w-16 h-16 rounded-full shadow-2xl border-4 border-red-700 transition-all transform hover:scale-110 active:scale-95">
+            <span class="text-3xl animate-pulse">🪔</span>
+          </div>
+          <div class="absolute inset-0 w-full h-full rounded-b-xl overflow-hidden pointer-events-none z-10">
+            <div class="absolute left-0 bottom-0 border-l-[150px] sm:border-l-[160px] border-l-[#f59e0b] border-t-[90px] sm:border-t-[100px] border-t-transparent"></div>
+            <div class="absolute right-0 bottom-0 border-r-[150px] sm:border-r-[160px] border-r-[#f59e0b] border-t-[90px] sm:border-t-[100px] border-t-transparent"></div>
+            <div class="absolute bottom-0 left-0 right-0 h-24 bg-[#b91c1c]/90 rounded-b-xl border-t-2 border-yellow-400" style="clip-path: polygon(0 100%, 100% 100%, 50% 0);"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="layer-timeline" class="page-layer hidden-layer w-full flex flex-col items-center">
+      <div class="text-center mb-10 max-w-xl bg-black/40 backdrop-blur-md p-6 rounded-3xl border border-yellow-500/30">
+        <span class="text-xs font-bold tracking-widest text-yellow-400 uppercase">অধ্যায় এক • Memories</span>
+        <h2 class="font-bengali text-3xl md:text-4xl text-yellow-300 font-bold mt-1 mb-2">কাকলির সোনালী মুহূর্তগুলো 📸</h2>
+        <p class="text-amber-100 text-xs sm:text-sm">তোমার প্রতিটি হাসিতে যেন মারীগোলের সুবাস ভেসে আসে। এই সুন্দর স্ক্র্যাপবুক কার্ডগুলোতে ক্লিক করে করে ওলটপালট করো!</p>
+      </div>
+      <div class="relative w-80 h-[380px] mb-12 flex justify-center items-center" style="contain: layout;">
+        <!-- Change images here -->
+        <div class="polaroid-card active-glow absolute inset-0 w-full h-full border-4 border-yellow-500 bg-amber-50 shadow-2xl rounded-lg p-3 flex flex-col cursor-pointer origin-bottom" style="transform: rotate(-4deg); z-index: 30;" onclick="handleManualCycle()">
+          <div class="w-full h-[240px] overflow-hidden rounded-md relative bg-neutral-100 border border-red-700 shadow-inner">
+            <img src="WhatsApp Image 2026-06-07 at 8.38.27 AM.jpeg" alt="Kakoli's Smile" class="w-full h-full object-cover" onerror="this.onerror=null; this.src='https://placehold.co/600x600/b91c1c/ffffff?text=Shubho+Janmadin+👑'">
+            <div class="absolute bottom-0 left-0 w-full bg-gradient-to-t from-red-950/80 to-transparent p-2 text-yellow-200 text-xs font-semibold font-bengali">
+              নয়নাভিরাম হাসি ✨
+            </div>
+          </div>
+          <div class="text-center pt-3 flex-grow flex flex-col justify-center">
+            <p class="font-bengali text-lg text-red-800 font-bold">তোমার মিষ্টি হাসি</p>
+            <p class="text-[9px] text-amber-900 font-semibold uppercase tracking-wider">Our Sacred Memory &bull; 1 / 4</p>
+          </div>
+        </div>
+        <div class="polaroid-card absolute inset-0 w-full h-full border-4 border-yellow-500 bg-amber-50 shadow-2xl rounded-lg p-3 flex flex-col cursor-pointer origin-bottom opacity-0" style="transform: rotate(3deg) scale(0.95); z-index: 20;" onclick="handleManualCycle()">
+          <div class="w-full h-[240px] overflow-hidden rounded-md relative bg-neutral-100 border border-red-700 shadow-inner">
+            <img src="WhatsApp Image 2026-06-07 at 8.49.29 AM.jpeg" alt="Kakoli's Grace" class="w-full h-full object-cover" onerror="this.onerror=null; this.src='https://placehold.co/600x600/ea580c/ffffff?text=Lajbonti+Rani+🌸'">
+            <div class="absolute bottom-0 left-0 w-full bg-gradient-to-t from-red-950/80 to-transparent p-2 text-yellow-200 text-xs font-semibold font-bengali">
+              লাজবন্তী রাজকন্যা 🌸
+            </div>
+          </div>
+          <div class="text-center pt-3 flex-grow flex flex-col justify-center">
+            <p class="font-bengali text-lg text-red-800 font-bold">অনন্য রূপের ছটা</p>
+            <p class="text-[9px] text-amber-900 font-semibold uppercase tracking-wider">Elegant Kakoli &bull; 2 / 4</p>
+          </div>
+        </div>
+        <div class="polaroid-card absolute inset-0 w-full h-full border-4 border-yellow-500 bg-amber-50 shadow-2xl rounded-lg p-3 flex flex-col cursor-pointer origin-bottom opacity-0" style="transform: rotate(-2deg) scale(0.9); z-index: 10;" onclick="handleManualCycle()">
+          <div class="w-full h-[240px] overflow-hidden rounded-md relative bg-neutral-100 border border-red-700 shadow-inner">
+            <img src="WhatsApp Image 2026-06-07 at 8.38.26 AM.jpeg" alt="Kakoli's Eyes" class="w-full h-full object-cover" onerror="this.onerror=null; this.src='https://placehold.co/600x600/ca8a04/ffffff?text=Nayan+Monohari+💖'">
+            <div class="absolute bottom-0 left-0 w-full bg-gradient-to-t from-red-950/80 to-transparent p-2 text-yellow-200 text-xs font-semibold font-bengali">
+              নয়নমনোহারী চোখ 👁️
+            </div>
+          </div>
+          <div class="text-center pt-3 flex-grow flex flex-col justify-center">
+            <p class="font-bengali text-lg text-red-800 font-bold">আমার চাঁদের আলো</p>
+            <p class="text-[9px] text-amber-900 font-semibold uppercase tracking-wider">Shining Universe &bull; 3 / 4</p>
+          </div>
+        </div>
+        <div class="polaroid-card absolute inset-0 w-full h-full border-4 border-yellow-500 bg-amber-50 shadow-2xl rounded-lg p-3 flex flex-col cursor-pointer origin-bottom opacity-0" style="transform: rotate(4deg) scale(0.85); z-index: 5;" onclick="handleManualCycle()">
+          <div class="w-full h-[240px] overflow-hidden rounded-md relative bg-neutral-100 border border-red-700 shadow-inner">
+            <img src="WhatsApp Image 2026-06-07 at 8.49.29 AM.jpeg" alt="Kakoli's 21st" class="w-full h-full object-cover" onerror="this.onerror=null; this.src='https://placehold.co/600x600/b91c1c/ffffff?text=Subho+Janmadin+👑'">
+            <div class="absolute bottom-0 left-0 w-full bg-gradient-to-t from-red-950/80 to-transparent p-2 text-yellow-200 text-xs font-semibold font-bengali">
+              শুভ ২১তম জন্মদিন 👑
+            </div>
+          </div>
+          <div class="text-center pt-3 flex-grow flex flex-col justify-center">
+            <p class="font-bengali text-lg text-red-800 font-bold">একুশের নতুন সুরভি</p>
+            <p class="text-[9px] text-amber-900 font-semibold uppercase tracking-wider">Entering Era 21 &bull; 4 / 4</p>
+          </div>
+        </div>
+      </div>
+      <div class="mb-12">
+        <button onclick="handleManualCycle()" class="px-6 py-2.5 bg-gradient-to-r from-red-700 to-amber-600 text-yellow-300 font-bold rounded-full shadow-lg text-xs hover:from-red-800 hover:to-amber-700 transition-all active:scale-95 flex items-center gap-2 border border-yellow-400">
+          <span class="font-bengali">ছবি পরিবর্তন করুন</span> <i data-lucide="sparkles" class="w-4 h-4 text-yellow-300"></i>
+        </button>
+      </div>
+      <div class="relative border-l-2 border-dashed border-yellow-500/60 ml-4 md:ml-0 md:left-1/2 md:-translate-x-1/2 max-w-3xl w-full flex flex-col gap-12 pb-16">
+        <div class="relative pl-8 md:pl-0 md:w-1/2 md:self-start md:pr-12 md:text-right">
+          <div class="absolute left-[-9px] top-1.5 md:left-auto md:right-[-9px] w-4.5 h-4.5 bg-red-600 border-4 border-yellow-300 rounded-full shadow-md animate-ping"></div>
+          <div class="absolute left-[-9px] top-1.5 md:left-auto md:right-[-9px] w-4.5 h-4.5 bg-red-600 border-4 border-yellow-300 rounded-full shadow-md"></div>
+          <div class="bg-gradient-to-br from-red-950/90 to-red-900/80 backdrop-blur-md p-6 rounded-2xl shadow-xl border border-yellow-500/40 hover:-translate-y-1 transition-transform">
+            <span class="inline-flex items-center gap-1.5 px-3 py-1 bg-amber-500/20 text-yellow-300 rounded-full text-xs font-bold mb-3 font-bengali">
+              <span>🪔</span> প্রথম দেখার স্মৃতি
+            </span>
+            <h3 class="font-bengali text-xl text-yellow-200 font-bold mb-2">সেদিন যখন চাঁদ নামলো বুকে</h3>
+            <p class="text-amber-100 text-xs sm:text-sm leading-relaxed font-bengali">যেদিন তোমার সাথে আমার প্রথম কথা হয়েছিল, মনে হয়েছিল সারা শরৎকালের শিউলি ফুল যেন একসাথে ঝরে পড়লো আমার চরণে। সেই প্রথম ভালোলাগা আজও চিরনতুন হয়ে আছে।</p>
+          </div>
+        </div>
+        <div class="relative pl-8 md:pl-0 md:w-1/2 md:self-end md:pl-12 md:text-left">
+          <div class="absolute left-[-9px] top-1.5 w-4.5 h-4.5 bg-red-600 border-4 border-yellow-300 rounded-full shadow-md"></div>
+          <div class="bg-gradient-to-br from-red-950/90 to-red-900/80 backdrop-blur-md p-6 rounded-2xl shadow-xl border border-yellow-500/40 hover:-translate-y-1 transition-transform">
+            <span class="inline-flex items-center gap-1.5 px-3 py-1 bg-amber-500/20 text-yellow-300 rounded-full text-xs font-bold mb-3 font-bengali">
+              <span>🌾</span> মধুর অধ্যায়সমূহ
+            </span>
+            <h3 class="font-bengali text-xl text-yellow-200 font-bold mb-2">একজোড়া হাত ও মিষ্টি স্মৃতি</h3>
+            <p class="text-amber-100 text-xs sm:text-sm leading-relaxed font-bengali">আমরা গড়ে তুলেছিলাম আমাদের সুন্দর এক মায়াবী বসন্ত। প্রতিটি ঝগড়া, প্রতিটি আদর আর প্রতিটি হাসি যেন আমাদের বন্ধনকে আরো চিরস্থায়ী করেছে।</p>
+          </div>
+        </div>
+        <div class="relative pl-8 md:pl-0 md:w-1/2 md:self-start md:pr-12 md:text-right">
+          <div class="absolute left-[-9px] top-1.5 md:left-auto md:right-[-9px] w-4.5 h-4.5 bg-red-600 border-4 border-yellow-300 rounded-full shadow-md"></div>
+          <div class="bg-gradient-to-br from-red-950/90 to-red-900/80 backdrop-blur-md p-6 rounded-2xl shadow-xl border border-yellow-500/40 hover:-translate-y-1 transition-transform">
+            <span class="inline-flex items-center gap-1.5 px-3 py-1 bg-amber-500/20 text-yellow-300 rounded-full text-xs font-bold mb-3 font-bengali">
+              <span>🤝</span> আজন্ম প্রতিশ্রুতি
+            </span>
+            <h3 class="font-bengali text-xl text-yellow-200 font-bold mb-2">পবিত্র ও নিঃস্বার্থ ভালোবাসা</h3>
+            <p class="text-amber-100 text-xs sm:text-sm leading-relaxed font-bengali">আমি অঙ্গীকার করছি, প্রতিটি উৎসবে, প্রতিটি বৈশাখে আর রঙিন পার্বণে তোমার হাতটি এভাবেই শক্ত করে ধরে রাখবো। তোমার জীবনের সমস্ত কষ্ট আমি ভাগ করে নেব।</p>
+          </div>
+        </div>
+        <div class="relative pl-8 md:pl-0 md:w-1/2 md:self-end md:pl-12 md:text-left">
+          <div class="absolute left-[-9px] top-1.5 w-4.5 h-4.5 bg-red-600 border-4 border-yellow-300 rounded-full shadow-md animate-ping"></div>
+          <div class="absolute left-[-9px] top-1.5 w-4.5 h-4.5 bg-red-600 border-4 border-yellow-300 rounded-full shadow-md"></div>
+          <div class="bg-gradient-to-br from-red-600 to-amber-600 p-6 rounded-2xl shadow-2xl text-white hover:-translate-y-1 transition-transform border-2 border-yellow-300">
+            <span class="inline-flex items-center gap-1.5 px-3 py-1 bg-white/20 text-yellow-100 rounded-full text-xs font-bold mb-3 font-bengali">
+              <span>🥁</span> আজকের এই বিশেষ শুভ ক্ষণ
+            </span>
+            <h3 class="font-bengali text-2xl font-bold mb-2">কাকলির খুশির ২১ বছর! 🎉</h3>
+            <p class="text-yellow-100 text-xs sm:text-sm leading-relaxed font-bengali">আজকের এই মহালগ্নে ঢাকের তালে মুখরিত হোক চারিপাশ। তুমি ২১ বছরে পা দিলে, আমার এই হৃদয়ের রাজমুকুট আজীবন তোমারই থাকবে।</p>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="mt-8 flex justify-center">
+        <button onclick="transitionToCards()" class="group px-8 py-3 bg-gradient-to-r from-red-600 to-amber-500 hover:from-red-700 hover:to-amber-600 text-yellow-100 font-bold rounded-full shadow-lg transition-all flex items-center gap-2 hover:-translate-y-1 border border-yellow-300">
+          <span class="font-bengali">হৃদয়ের অব্যক্ত কথা</span>
+          <i data-lucide="heart" class="w-5 h-5 group-hover:scale-110 transition-transform fill-current text-yellow-200"></i>
+        </button>
+      </div>
+    </div>
+    <div id="layer-cards" class="page-layer hidden-layer w-full flex flex-col items-center">
+      <div class="text-center mb-10 max-w-xl bg-black/40 backdrop-blur-md p-6 rounded-3xl border border-yellow-500/30">
+        <span class="text-xs font-bold tracking-widest text-yellow-400 uppercase">অধ্যায় দুই </span>
+        <h2 class="font-bengali text-3xl md:text-4xl text-yellow-300 font-bold mt-1 mb-2">প্রিয়তমা! তোমার বৈশিষ্ট্য ❤️</h2>
+        <p class="text-amber-100 text-xs sm:text-sm">কার্ডগুলোতে ক্লিক করো এবং দেখো কেন আমার পৃথিবী জুড়ে কেবলই তুমি বিরাজ করো।</p>
+      </div>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-4xl w-full px-2 mb-12">
+        <div class="flip-card h-64 cursor-pointer" onclick="flipCard(this)">
+          <div class="flip-card-inner">
+            <div class="flip-card-front bg-red-950 flex flex-col justify-between p-4 shadow-xl rounded-2xl">
+              <div class="w-full h-32 overflow-hidden rounded-xl relative border border-yellow-500 shadow-inner">
+                <img src="WhatsApp Image 2026-06-07 at 8.38.26 AM.jpeg" alt="Kakoli's Devotion" class="w-full h-full object-cover" onerror="this.onerror=null; this.src='https://placehold.co/400x300/b91c1c/ffffff?text=Alpona+Queen+🌸'">
+                <div class="absolute top-2 left-2 bg-red-900/90 backdrop-blur-md px-2.5 py-0.5 rounded-full text-[10px] font-bold text-yellow-300 flex items-center gap-1 border border-yellow-400 font-bengali">
+                  👑 রূপসী রাজকন্যা
+                </div>
+              </div>
+              <p class="font-bengali text-base text-yellow-300 font-bold mt-2">তোমার অনুপম শ্রী</p>
+              <div class="text-right text-amber-400 text-[10px] font-bold flex items-center justify-end gap-1 font-bengali">
+                <span>রহস্য উন্মোচন</span> <i data-lucide="corner-down-right" class="w-3 h-3"></i>
+              </div>
+            </div>
+            <div class="flip-card-back bg-gradient-to-br from-amber-50 to-amber-100 flex flex-col justify-center items-center p-6 rounded-2xl border border-yellow-500">
+              <span class="text-3xl mb-2">👑</span>
+              <h4 class="font-bengali font-bold text-lg text-red-800 mb-2">অনিন্দ্য রূপসী</h4>
+              <p class="text-amber-950 text-xs font-bengali leading-relaxed">তুমি যখন লাল-পাড় শাড়ি পরে সামনে আসো, মনে হয় যেন এক মায়াবী রাজকুমারী মর্ত্যে নেমে এসেছে। তোমার এই অনন্য সৌন্দর্য আর আভিজাত্য অতুলনীয়।</p>
+            </div>
+          </div>
+        </div>
+        <div class="flip-card h-64 cursor-pointer" onclick="flipCard(this)">
+          <div class="flip-card-inner">
+            <div class="flip-card-front bg-red-950 flex flex-col justify-between p-4 shadow-xl rounded-2xl">
+              <div class="w-full h-32 overflow-hidden rounded-xl relative border border-yellow-500 shadow-inner">
+                <img src="WhatsApp Image 2026-06-07 at 8.38.27 AM.jpeg" alt="Kakoli's Heart" class="w-full h-full object-cover" onerror="this.onerror=null; this.src='https://placehold.co/400x300/ea580c/ffffff?text=Soft+Heart+🌸'">
+                <div class="absolute top-2 left-2 bg-red-900/90 backdrop-blur-md px-2.5 py-0.5 rounded-full text-[10px] font-bold text-yellow-300 flex items-center gap-1 border border-yellow-400 font-bengali">
+                  💖 করুণাময়ী
+                </div>
+              </div>
+              <p class="font-bengali text-base text-yellow-300 font-bold mt-2">পবিত্র মায়াময় অন্তর</p>
+              <div class="text-right text-amber-400 text-[10px] font-bold flex items-center justify-end gap-1 font-bengali">
+                <span>রহস্য উন্মোচন</span> <i data-lucide="corner-down-right" class="w-3 h-3"></i>
+              </div>
+            </div>
+            <div class="flip-card-back bg-gradient-to-br from-amber-50 to-amber-100 flex flex-col justify-center items-center p-6 rounded-2xl border border-yellow-500">
+              <span class="text-3xl mb-2">🌸</span>
+              <h4 class="font-bengali font-bold text-lg text-red-800 mb-2">স্নেহের আধার</h4>
+              <p class="text-amber-950 text-xs font-bengali leading-relaxed">তোমার মনটি অত্যন্ত দয়ালু। তুমি যেভাবে আমার যত্ন নাও, প্রতিটি ছোট বিষয়ে খেয়াল রাখো, তা আমার জীবনকে পূর্ণতায় ভরিয়ে দেয়।</p>
+            </div>
+          </div>
+        </div>
+        <div class="flip-card h-64 cursor-pointer" onclick="flipCard(this)">
+          <div class="flip-card-inner">
+            <div class="flip-card-front bg-red-950 flex flex-col justify-between p-4 shadow-xl rounded-2xl">
+              <div class="w-full h-32 overflow-hidden rounded-xl relative border border-yellow-500 shadow-inner">
+                <img src="WhatsApp Image 2026-06-07 at 8.49.29 AM.jpeg" alt="Kakoli's Playfulness" class="w-full h-full object-cover" onerror="this.onerror=null; this.src='https://placehold.co/400x300/ca8a04/ffffff?text=Silly+Princess+💖'">
+                <div class="absolute top-2 left-2 bg-red-900/90 backdrop-blur-md px-2.5 py-0.5 rounded-full text-[10px] font-bold text-yellow-300 flex items-center gap-1 border border-yellow-400 font-bengali">
+                  🦄 অভিমানী রানী
+                </div>
+              </div>
+              <p class="font-bengali text-base text-yellow-300 font-bold mt-2">মিষ্টি দুষ্টুমি আর রাগ</p>
+              <div class="text-right text-amber-400 text-[10px] font-bold flex items-center justify-end gap-1 font-bengali">
+                <span>রহস্য উন্মোচন</span> <i data-lucide="corner-down-right" class="w-3 h-3"></i>
+              </div>
+            </div>
+            <div class="flip-card-back bg-gradient-to-br from-amber-50 to-amber-100 flex flex-col justify-center items-center p-6 rounded-2xl border border-yellow-500">
+              <span class="text-3xl mb-2">🦄</span>
+              <h4 class="font-bengali font-bold text-lg text-red-800 mb-2">মিষ্টি খুনসুটি</h4>
+              <p class="text-amber-950 text-xs font-bengali leading-relaxed">তোমার সেই ঠোঁট ফোলানো রাগ, আর দুষ্টু হাসিতে আমার বুকের ভেতরটা কেঁপে ওঠে। তোমার সমস্ত খুনসুটিই আমার বাঁচার আসল স্পন্দন।</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="group px-8 py-3 ... flex flex-col sm:flex-row gap-4 justify-center">
+        <button onclick="transitionToTimeline()" class="px-6 py-3 border-2 border-yellow-500/50 text-yellow-300 hover:bg-red-950/40 rounded-full font-bold transition-all flex items-center justify-center gap-2 font-bengali text-sm">
+          <i data-lucide="arrow-left" class="w-5 h-5"></i>
+          <span>পিছনে যান</span>
+        </button>
+        <button onclick="startCelebrationStage()" class="group px-8 py-3 bg-gradient-to-r from-yellow-500 to-amber-600 hover:from-yellow-600 hover:to-amber-700 text-red-950 font-extrabold rounded-full shadow-2xl transition-all flex items-center justify-center gap-2 hover:-translate-y-1 active:translate-y-0 border-2 border-red-700">
+          <span class="font-bengali text-sm">শুভ প্রদীপ প্রজ্জ্বলন করুন 🪔</span>
+          <i data-lucide="sparkles" class="w-5 h-5 text-red-800 animate-spin"></i>
+        </button>
+      </div>
+    </div>
+    <div id="layer-birthday" class="page-layer hidden-layer w-full flex flex-col items-center">
+      <div class="text-center mb-6 max-w-xl bg-black/40 backdrop-blur-md p-6 rounded-3xl border border-yellow-500/30">
+        <span class="text-xs font-bold tracking-widest text-yellow-400 uppercase">অধ্যায় তিন • Wishes</span>
+        <h2 class="font-bengali text-4xl md:text-5xl text-yellow-300 font-extrabold mt-1 mb-2">শুভ জন্মদিন, প্রিয়তমা!! 🥂</h2>
+        <p class="text-amber-100 text-xs sm:text-sm font-bengali">তিনটি প্রদীপের শিখায় ট্যাপ করে তোমার মনের কোণের গোপন ইচ্ছেটি পূরণ করো এবং আকাশে লণ্ঠন উড়িয়ে দাও।</p>
+      </div>
+      <div class="relative w-80 h-96 flex flex-col items-center justify-center mb-6">
+        <div id="cakeInstruction" class="absolute -top-6 bg-red-900/90 text-yellow-300 text-xs px-4 py-1.5 rounded-full shadow-2xl animate-bounce font-bold border border-yellow-400 font-bengali">
+          ✨ প্রদীপের শিখাগুলোতে ট্যাপ করে ফুঁ দাও! ✨
+        </div>
+        <svg viewBox="0 0 300 350" class="w-72 h-auto filter drop-shadow-2xl">
+          <defs>
+            <linearGradient id="blushGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#fff1f2" />
+              <stop offset="50%" stop-color="#ffe4e6" />
+              <stop offset="100%" stop-color="#fecdd3" />
+            </linearGradient>
+            <linearGradient id="blushGradient2" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#ffffff" />
+              <stop offset="60%" stop-color="#ffe4e6" />
+              <stop offset="100%" stop-color="#fda4af" />
+            </linearGradient>
+            <linearGradient id="goldMetallic" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" stop-color="#ca8a04" />
+              <stop offset="30%" stop-color="#fef08a" />
+              <stop offset="70%" stop-color="#eab308" />
+              <stop offset="100%" stop-color="#854d0e" />
+            </linearGradient>
+            <linearGradient id="roseGold" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" stop-color="#9f1239" />
+              <stop offset="50%" stop-color="#fb7185" />
+              <stop offset="100%" stop-color="#be123c" />
+            </linearGradient>
+          </defs>
+
+          <!-- Minimalist Luxury Cake Stand -->
+          <ellipse cx="150" cy="315" rx="100" ry="12" fill="#1e293b" opacity="0.15"/>
+          <path d="M 135 295 L 140 315 L 160 315 L 165 295 Z" fill="url(#goldMetallic)"/>
+          <ellipse cx="150" cy="295" rx="105" ry="14" fill="#ffffff" stroke="url(#goldMetallic)" stroke-width="3"/>
+
+          <!-- Bottom Tier - Tall and Chic Minimalist Cylinder -->
+          <rect x="70" y="195" width="160" height="100" rx="8" fill="url(#blushGradient)" stroke="#fff" stroke-width="1"/>
+          
+          <!-- Abstract Gold Leaf Accents on Bottom Tier -->
+          <path d="M 80 210 Q 95 200 100 215 T 120 210" fill="none" stroke="url(#goldMetallic)" stroke-width="2" stroke-linecap="round"/>
+          <path d="M 180 250 Q 195 240 205 255 T 225 250" fill="none" stroke="url(#goldMetallic)" stroke-width="1.5" stroke-linecap="round"/>
+          <circle cx="95" cy="240" r="2.5" fill="url(#goldMetallic)"/>
+          <circle cx="150" cy="270" r="3" fill="url(#goldMetallic)"/>
+          <circle cx="210" cy="220" r="2" fill="url(#goldMetallic)"/>
+
+          <!-- Top Tier -->
+          <rect x="95" y="125" width="110" height="70" rx="6" fill="url(#blushGradient2)" stroke="#fff" stroke-width="1"/>
+          <!-- Delicate gold line on top tier -->
+          <path d="M 105 140 Q 125 150 145 135 T 185 145" fill="none" stroke="url(#goldMetallic)" stroke-width="1.5" opacity="0.8"/>
+
+          <!-- Modern Script "21" Acrylic Gold Topper -->
+          <g transform="translate(112, 82) scale(0.65)">
+            <!-- Elegant modern outline of '2' -->
+            <path d="M 15 45 C 10 15, 45 15, 45 35 C 45 55, 15 65, 15 80 L 50 80" fill="none" stroke="url(#goldMetallic)" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+            <!-- Elegant modern outline of '1' -->
+            <path d="M 70 30 L 75 25 L 75 80 M 62 80 L 88 80" fill="none" stroke="url(#goldMetallic)" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+          </g>
+
+          <!-- Candle 1 (Left) - Ultra Sleek Tall Taper Candle -->
+          <g id="candle1" class="cursor-pointer" onclick="extinguishCandle(1)">
+            <!-- Metallic Gold Holder base -->
+            <rect x="117" y="118" width="6" height="8" rx="1" fill="url(#goldMetallic)"/>
+            <!-- Sleek Taper Rose Gold Body -->
+            <rect x="119" y="75" width="2" height="45" fill="url(#roseGold)"/>
+            <!-- Wick -->
+            <line x1="120" y1="75" x2="120" y2="70" stroke="#475569" stroke-width="1"/>
+            <!-- Flame -->
+            <path id="flame1" class="candle-flame" d="M 120 50 C 115 60 118 70 120 70 C 122 70 125 60 120 50 Z" fill="#f97316"/>
+            <path id="innerFlame1" class="candle-flame" d="M 120 57 C 117 64 119 69 120 69 C 121 69 123 64 120 57 Z" fill="#fef08a"/>
+            <!-- Giant Touch Target -->
+            <circle cx="120" cy="65" r="25" fill="transparent"/>
+          </g>
+
+          <!-- Candle 2 (Center) - Tallest Taper Candle -->
+          <g id="candle2" class="cursor-pointer" onclick="extinguishCandle(2)">
+            <rect x="147" y="118" width="6" height="8" rx="1" fill="url(#goldMetallic)"/>
+            <rect x="149" y="60" width="2" height="60" fill="url(#roseGold)"/>
+            <line x1="150" y1="60" x2="150" y2="55" stroke="#475569" stroke-width="1"/>
+            <!-- Flame -->
+            <path id="flame2" class="candle-flame" d="M 150 35 C 145 45 148 55 150 55 C 152 55 155 45 150 35 Z" fill="#f97316"/>
+            <path id="innerFlame2" class="candle-flame" d="M 150 42 C 147 49 149 54 150 54 C 151 54 153 49 150 42 Z" fill="#fef08a"/>
+            <!-- Giant Touch Target -->
+            <circle cx="150" cy="50" r="25" fill="transparent"/>
+          </g>
+
+          <!-- Candle 3 (Right) - Tall Taper Candle -->
+          <g id="candle3" class="cursor-pointer" onclick="extinguishCandle(3)">
+            <rect x="177" y="118" width="6" height="8" rx="1" fill="url(#goldMetallic)"/>
+            <rect x="179" y="75" width="2" height="45" fill="url(#roseGold)"/>
+            <line x1="180" y1="75" x2="180" y2="70" stroke="#475569" stroke-width="1"/>
+            <!-- Flame -->
+            <path id="flame3" class="candle-flame" d="M 180 50 C 175 60 178 70 180 70 C 182 70 185 60 180 50 Z" fill="#f97316"/>
+            <path id="innerFlame3" class="candle-flame" d="M 180 57 C 177 64 179 69 180 69 C 181 69 183 64 180 57 Z" fill="#fef08a"/>
+            <!-- Giant Touch Target -->
+            <circle cx="180" cy="65" r="25" fill="transparent"/>
+          </g>
+        </svg>
+      </div>
+
+      <!-- Traditional Bengali Birthday blessings block -->
+      <div id="outroMessage" class="hidden max-w-lg bg-red-950/95 backdrop-blur-md p-8 rounded-3xl shadow-2xl border-2 border-yellow-500 text-center scale-95 opacity-0 transition-all duration-1000 mt-4 relative z-10">
+        <div class="text-4xl mb-4 animate-bounce">🪔 🌸 💖</div>
+        <h3 class="font-bengali text-3xl font-bold text-yellow-300 mb-4">শতায়ু হও, সুখে থাকো</h3>
+        <p class="text-amber-100 text-sm md:text-base leading-relaxed mb-6 italic font-bengali">
+          "আমার মিষ্টি কাকলি, আকাশে ভাসিয়ে দেওয়া এই মঙ্গল প্রদীপ আর সুবর্ণ লণ্ঠনের মতো তোমার জীবনটি সর্বদা উজ্জ্বল আর সুভাসিত থাকুক। আজকের এই একুশের শুভ ক্ষণ তোমার জীবনে বয়ে আনুক অনাবিল আনন্দ আর সমৃদ্ধি। তোমার প্রতিটি ইচ্ছে যেন পূরণ হয়, আমি চিরকাল তোমার পাশে ছায়া হয়ে থাকবো। শুভ জন্মদিন, প্রিয়তমা!"
+        </p>
+        <span class="font-bengali text-3xl text-yellow-400 font-extrabold block animate-pulse">তোমাকে জানাই অসীম ভালোবাসা ❤️</span>
+      </div>
+
+      <div class="mt-8 flex gap-4">
+        <button onclick="changeLayer('layer-birthday', 'layer-cards')" class="px-6 py-3 border-2 border-yellow-500/50 hover:bg-red-950/40 text-yellow-300 rounded-full font-bold transition-all flex items-center gap-2 font-bengali text-sm">
+          <i data-lucide="arrow-left" class="w-5 h-5"></i>
+          <span>পিছনে যান</span>
+        </button>
+      </div>
+    </div>
+  </main>
+  <footer class="w-full text-center py-6 text-yellow-400/80 text-xs border-t border-yellow-500/30 bg-black/50 relative z-10">
+    <div class="flex items-center justify-center gap-1.5 mb-1.5 text-yellow-300 font-bold font-bengali">
+      <span>হৃদয় দিয়ে উৎসর্গীকৃত কাকলি সেনকে</span>
+      <i data-lucide="heart" class="w-3.5 h-3.5 fill-current text-red-600 animate-pulse"></i>
+    </div>
+    <div class="font-medium text-amber-200">শুভ শুভ শুভ দিন, আজ কাকলির জন্মদিন • 07.06.2026</div>
+  </footer>
+
+  <script>
+    let scene, camera, renderer, particles = [];
+    let heartGeom;
+
+    function init3DBackground() {
+      const canvas = document.getElementById('threeCanvas');
+      scene = new THREE.Scene();
+      
+      camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 100);
+      camera.position.z = 8;
+
+      renderer = new THREE.WebGLRenderer({ canvas: canvas, opacity: true, alpha: true, antialias: true });
+      renderer.setSize(window.innerWidth, window.innerHeight);
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+      const ambientLight = new THREE.AmbientLight(0xfff3d6, 0.9);
+      scene.add(ambientLight);
+      const dirLight = new THREE.DirectionalLight(0xffffff, 0.7);
+      dirLight.position.set(5, 10, 7);
+      scene.add(dirLight);
+
+      const heartShape = new THREE.Shape();
+      heartShape.moveTo(0, -0.15);
+      heartShape.bezierCurveTo(-0.18, 0.1, -0.32, 0.22, -0.32, 0.42);
+      heartShape.bezierCurveTo(-0.32, 0.62, -0.12, 0.75, 0, 0.48);
+      heartShape.bezierCurveTo(0.12, 0.75, 0.32, 0.62, 0.32, 0.42);
+      heartShape.bezierCurveTo(0.32, 0.22, 0.18, 0.1, 0, -0.15);
+
+      const extrudeSettings = {
+        depth: 0.08,
+        bevelEnabled: true,
+        bevelSegments: 3,
+        steps: 1,
+        bevelSize: 0.02,
+        bevelThickness: 0.02
+      };
+      heartGeom = new THREE.ExtrudeGeometry(heartShape, extrudeSettings);
+      heartGeom.center();
+
+      const count = 110;
+      const matCrimson = new THREE.MeshPhongMaterial({ color: 0xb91c1c, shininess: 80 });
+      const matScarlet = new THREE.MeshPhongMaterial({ color: 0xdc2626, shininess: 80 });
+      const matRoseRed = new THREE.MeshPhongMaterial({ color: 0xe11d48, shininess: 80 });
+
+      for (let i = 0; i < count; i++) {
+        const rand = Math.random();
+        const mat = rand < 0.4 ? matCrimson : (rand < 0.75 ? matScarlet : matRoseRed);
+        
+        const mesh = new THREE.Mesh(heartGeom, mat);
+        
+        mesh.position.set(
+          (Math.random() - 0.5) * 12,
+          Math.random() * 12 - 5,
+          (Math.random() - 0.5) * 6
+        );
+        mesh.rotation.set(Math.random() * Math.PI, Math.random() * Math.PI, Math.random() * Math.PI);
+        mesh.scale.setScalar(Math.random() * 0.15 + 0.08);
+
+        mesh.userData = {
+          speedY: Math.random() * 0.015 + 0.007,
+          speedX: (Math.random() - 0.5) * 0.005,
+          rotSpeedX: Math.random() * 0.03,
+          rotSpeedY: Math.random() * 0.03,
+          swaySpeed: Math.random() * 1.2 + 0.6,
+          swayOffset: Math.random() * Math.PI * 2
+        };
+
+        scene.add(mesh);
+        particles.push(mesh);
+      }
+
+      window.addEventListener('resize', () => {
+        camera.aspect = window.innerWidth / window.innerHeight;
+        camera.updateProjectionMatrix();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+      });
+    }
+
+    function animate3D() {
+      requestAnimationFrame(animate3D);
+      const time = Date.now() * 0.001;
+
+      particles.forEach(p => {
+        p.position.y -= p.userData.speedY;
+        p.position.x += Math.sin(time * p.userData.swaySpeed + p.userData.swayOffset) * 0.005 + p.userData.speedX;
+        
+        p.rotation.x += p.userData.rotSpeedX;
+        p.rotation.y += p.userData.rotSpeedY;
+        if (p.position.y < -6) {
+          p.position.y = 6;
+          p.position.x = (Math.random() - 0.5) * 12;
+        }
+      });
+      renderer.render(scene, camera);
+    }
+
+    lucide.createIcons();
+
+    class TraditionalAudioSynth {
+      constructor() {
+        this.ctx = null;
+        this.isPlaying = false;
+        this.sequenceId = null;
+        this.tempo = 80;
+        this.activeNodes = [];        
+
+        this.notes = [
+          { note: 'G4', dur: 1 }, { note: 'A4', dur: 1 }, { note: 'C5', dur: 2 },
+          { note: 'A4', dur: 1 }, { note: 'G4', dur: 1 }, { note: 'E4', dur: 2 },
+          { note: 'D4', dur: 1 }, { note: 'E4', dur: 1 }, { note: 'G4', dur: 2 },
+          { note: 'E4', dur: 1 }, { note: 'D4', dur: 1 }, { note: 'C4', dur: 2 },
+          // Chorous line
+          { note: 'C4', dur: 1 }, { note: 'D4', dur: 1 }, { note: 'E4', dur: 1 }, { note: 'G4', dur: 1 },
+          { note: 'A4', dur: 2 }, { note: 'G4', dur: 2 },
+          { note: 'C5', dur: 1 }, { note: 'A4', dur: 1 }, { note: 'G4', dur: 1 }, { note: 'E4', dur: 1 },
+          { note: 'D4', dur: 2 }, { note: 'C4', dur: 2 }
+        ];
+        this.frequencies = {
+          'C4': 261.63, 'D4': 293.66, 'E4': 329.63, 'G4': 392.00, 'A4': 440.00, 'C5': 523.25
+        };
+
+        this.delayNode = null;
+        this.feedbackGain = null;
+      }
+
+      init() {
+        if (!this.ctx) {
+          this.ctx = new (window.AudioContext || window.webkitAudioContext)();
+          this.delayNode = this.ctx.createDelay(1.0);
+          this.feedbackGain = this.ctx.createGain();
+          this.delayNode.delayTime.value = 0.38;
+          this.feedbackGain.gain.value = 0.35;
+          this.delayNode.connect(this.feedbackGain);
+          this.feedbackGain.connect(this.delayNode);
+          this.delayNode.connect(this.ctx.destination);
+        }
+        if (this.ctx.state === 'suspended') {
+          this.ctx.resume();
+        }
+      }
+
+      playBansuriTone(freq, startTime, duration) {
+        this.init();
+
+        const osc1 = this.ctx.createOscillator();
+        const osc1Gain = this.ctx.createGain();
+        osc1.type = 'sine';
+        osc1.frequency.setValueAtTime(freq, startTime);
+
+        const vibrato = this.ctx.createOscillator();
+        const vibratoGain = this.ctx.createGain();
+        vibrato.frequency.value = 5.2;
+        vibratoGain.gain.value = 3.0;
+        vibrato.connect(vibratoGain);
+        vibratoGain.connect(osc1.frequency);
+
+        const chime = this.ctx.createOscillator();
+        const chimeGain = this.ctx.createGain();
+        chime.type = 'triangle';
+        chime.frequency.setValueAtTime(freq * 2, startTime);
+
+        const filter = this.ctx.createBiquadFilter();
+        filter.type = 'lowpass';
+        filter.frequency.setValueAtTime(1200, startTime);
+        filter.Q.setValueAtTime(1, startTime);
+
+        osc1Gain.gain.setValueAtTime(0, startTime);
+        osc1Gain.gain.linearRampToValueAtTime(0.18, startTime + 0.08);
+        osc1Gain.gain.exponentialRampToValueAtTime(0.001, startTime + duration - 0.05);
+
+        chimeGain.gain.setValueAtTime(0, startTime);
+        chimeGain.gain.linearRampToValueAtTime(0.06, startTime + 0.005);
+        chimeGain.gain.exponentialRampToValueAtTime(0.001, startTime + 0.15);
+
+        osc1.connect(osc1Gain);
+        chime.connect(chimeGain);
+        osc1Gain.connect(filter);
+        chimeGain.connect(filter);
+        filter.connect(this.ctx.destination);
+        filter.connect(this.delayNode);
+        this.activeNodes.push(osc1, chime, vibrato);
+        vibrato.start(startTime);
+        osc1.start(startTime);
+        chime.start(startTime);
+
+        vibrato.stop(startTime + duration);
+        osc1.stop(startTime + duration);
+        chime.stop(startTime + duration);
+
+        setTimeout(() => {
+          this.activeNodes = this.activeNodes.filter(n => n !== osc1 && n !== chime && n !== vibrato);
+        }, (startTime + duration - this.ctx.currentTime) * 1000);
+      }
+
+      start() {
+        this.init();
+        if (this.isPlaying) return;
+        this.isPlaying = true;
+
+        let currentBeatTime = this.ctx.currentTime + 0.1;
+        const beatLength = 60 / this.tempo;
+
+        const scheduleMelody = () => {
+          if (!this.isPlaying) return;
+          let step = 0;
+          this.notes.forEach(item => {
+            const freq = this.frequencies[item.note];
+            const noteDur = item.dur * beatLength;
+            this.playBansuriTone(freq, currentBeatTime + (step * beatLength), noteDur);
+            step += item.dur;
+          });
+
+          const loopDuration = step * beatLength;
+          currentBeatTime += loopDuration;
+          this.sequenceId = setTimeout(scheduleMelody, loopDuration * 1000);
+        };
+
+        scheduleMelody();
+      }
+
+      stop() {
+        this.isPlaying = false;
+        if (this.sequenceId) {
+          clearTimeout(this.sequenceId);
+          this.sequenceId = null;
+        }
+        // Force-kill all running oscillators instantly to prevent bleed-through
+        this.activeNodes.forEach(node => {
+          try {
+            node.disconnect();
+            node.stop();
+          } catch (e) {
+          }
+        });
+        this.activeNodes = [];
+      }
+    }
+
+    const synth = new TraditionalAudioSynth();
+    const musicButton = document.getElementById('musicToggle');
+
+    musicButton.addEventListener('click', () => {
+      if (!synth.isPlaying) {
+        synth.start();
+        musicButton.innerHTML = `<i data-lucide="pause" class="w-3.5 h-3.5 sm:w-4 sm:h-4 text-white"></i> <span class="text-[10px] sm:text-xs font-bengali">সুর থামান 🎵</span>`;
+        triggerCustomAlert("বাঁশির সুর শুরু হলো 🎼");
+      } else {
+        synth.stop();
+        musicButton.innerHTML = `<i data-lucide="music" class="w-3.5 h-3.5 sm:w-4 sm:h-4 animate-spin"></i> <span class="text-[10px] sm:text-xs font-bengali">জন্মদিন সুর 🎵</span>`;
+        triggerCustomAlert("সুর থামানো হয়েছে");
+      }
+      lucide.createIcons();
+    });
+
+    function changeLayer(currentId, targetId) {
+      const current = document.getElementById(currentId);
+      const target = document.getElementById(targetId);
+
+      current.classList.add('hidden-layer');
+      current.classList.remove('active-layer');
+
+      setTimeout(() => {
+        target.classList.remove('hidden-layer');
+        target.classList.add('active-layer');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }, 300);
+    }
+
+    let autoCycleTimer = null;
+    function startAutoCycle() {
+      stopAutoCycle();
+      autoCycleTimer = setInterval(() => {
+        cyclePolaroid();
+      }, 4000);
+    }
+    function stopAutoCycle() {
+      if (autoCycleTimer) {
+        clearInterval(autoCycleTimer);
+        autoCycleTimer = null;
+      }
+    }
+    function handleManualCycle() {
+      cyclePolaroid();
+      startAutoCycle();
+    }
+    function transitionToCards() {
+      stopAutoCycle();
+      changeLayer('layer-timeline', 'layer-cards');
+    }
+    function transitionToTimeline() {
+      changeLayer('layer-cards', 'layer-timeline');
+      startAutoCycle();
+    }
+    function openEnvelope() {
+      const env = document.getElementById('envelope');
+      const seal = document.getElementById('waxSeal');
+      env.classList.add('open');
+      if (seal) {
+        seal.style.opacity = '0';
+        seal.style.transform = 'translateY(-50%) scale(0)';
+        setTimeout(() => seal.remove(), 600);
+      }
+      if (!synth.isPlaying) {
+        setTimeout(() => {
+          synth.start();
+          musicButton.innerHTML = `<i data-lucide="pause" class="w-3.5 h-3.5 sm:w-4 sm:h-4 text-white"></i> <span class="text-[10px] sm:text-xs font-bengali">সুর থামান 🎵</span>`;
+          lucide.createIcons();
+        }, 1500);
+      }
+      setTimeout(() => {
+        changeLayer('layer-envelope', 'layer-timeline');
+        triggerCustomAlert("শুভ জন্মতিথিতে স্বাগত, কাকলি! ✨");
+        startAutoCycle();
+      }, 2500);
+    }
+
+    function flipCard(cardElement) {
+      cardElement.classList.toggle('flipped');
+    }
+    function triggerCustomAlert(text) {
+      const alertDiv = document.getElementById('customAlert');
+      const msg = document.getElementById('alertMessage');
+      msg.textContent = text;
+      
+      alertDiv.classList.remove('-translate-y-24', 'opacity-0');
+      alertDiv.classList.add('translate-y-0', 'opacity-100');
+
+      setTimeout(() => {
+        alertDiv.classList.add('-translate-y-24', 'opacity-0');
+        alertDiv.classList.remove('translate-y-0', 'opacity-100');
+      }, 3200);
+    }
+
+    function spawnFlyingLoveEmoji(x, y) {
+      const emojiContainer = document.createElement('div');
+      emojiContainer.classList.add('flying-love-emoji');
+      const traditionalEmojis = ['❤️', '💖', '❤️', '🌹', '❤️', '💕', '❤️', '🎈', '❤️', '✨'];
+      const randomEmoji = traditionalEmojis[Math.floor(Math.random() * traditionalEmojis.length)];
+      emojiContainer.innerHTML = `<span class="select-none filter drop-shadow-md text-xl md:text-2xl">${randomEmoji}</span>`;
+      emojiContainer.style.left = `${x}px`;
+      emojiContainer.style.top = `${y}px`;
+      
+      const swayStart = (Math.random() - 0.5) * 80;
+      const swayEnd = (Math.random() - 0.5) * 220;
+      const rotStart = Math.random() * 45 - 22.5;
+      const rotEnd = Math.random() * 360 - 180;
+      const duration = Math.random() * 2.5 + 3;
+      
+      emojiContainer.style.setProperty('--sway-x-start', `${swayStart}px`);
+      emojiContainer.style.setProperty('--sway-x-end', `${swayEnd}px`);
+      emojiContainer.style.setProperty('--rot-start', `${rotStart}deg`);
+      emojiContainer.style.setProperty('--rot-end', `${rotEnd}deg`);
+      emojiContainer.style.setProperty('--fly-duration', `${duration}s`);
+      
+      document.body.appendChild(emojiContainer);
+      
+      setTimeout(() => {
+        emojiContainer.remove();
+      }, duration * 1000);
+    }
+
+    /* Passive drifting small red background HTML hearts */
+    function spawnPassiveHeart() {
+      const heart = document.createElement('div');
+      heart.classList.add('floating-heart');
+      heart.innerHTML = `<svg class="fill-current text-red-500" viewBox="0 0 24 24" width="100%" height="100%"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>`;
+      
+      const size = Math.random() * 8 + 6; // Delicate size range: 6px to 14px
+      heart.style.width = `${size}px`;
+      heart.style.height = `${size}px`;
+      heart.style.left = `${Math.random() * 100}vw`;
+      
+      const duration = Math.random() * 4 + 5; // 5s to 9s drift
+      heart.style.animationDuration = `${duration}s`;
+      heart.style.opacity = (Math.random() * 0.5 + 0.3).toString();
+
+      document.body.appendChild(heart);
+
+      setTimeout(() => {
+        heart.remove();
+      }, duration * 1000);
+    }
+    
+    // Spawn passive drifting red hearts periodically
+    setInterval(spawnPassiveHeart, 600);
+
+    window.addEventListener('click', (event) => {
+      if (event.target.closest('button') || event.target.closest('a') || event.target.closest('#waxSeal') || event.target.closest('.cursor-pointer') || event.target.closest('.polaroid-card')) {
+        return;
+      }
+      const burstCount = Math.floor(Math.random() * 3) + 3;
+      for (let i = 0; i < burstCount; i++) {
+        setTimeout(() => {
+          const offsetX = (Math.random() - 0.5) * 40;
+          const offsetY = (Math.random() - 0.5) * 40;
+          spawnFlyingLoveEmoji(event.clientX + offsetX, event.clientY + offsetY);
+        }, i * 75);
+      }
+    });
+
+    window.addEventListener('touchstart', (event) => {
+      if (event.target.closest('button') || event.target.closest('a') || event.target.closest('#waxSeal') || event.target.closest('.cursor-pointer') || event.target.closest('.polaroid-card')) {
+        return;
+      }
+      const touch = event.touches[0];
+      const burstCount = Math.floor(Math.random() * 2) + 3;
+      for (let i = 0; i < burstCount; i++) {
+        setTimeout(() => {
+          const offsetX = (Math.random() - 0.5) * 30;
+          const offsetY = (Math.random() - 0.5) * 30;
+          spawnFlyingLoveEmoji(touch.clientX + offsetX, touch.clientY + offsetY);
+        }, i * 60);
+      }
+    }, { passive: true });
+
+    function spawnSparkle(x, y) {
+      const sparkle = document.createElement('div');
+      sparkle.className = 'fixed pointer-events-none z-[100] text-yellow-400 select-none';
+      sparkle.innerHTML = '✦'; 
+      sparkle.style.left = `${x}px`;
+      sparkle.style.top = `${y}px`;
+      sparkle.style.fontSize = `${Math.random() * 10 + 12}px`;
+      sparkle.style.textShadow = '0 0 10px rgba(254, 240, 138, 0.8)';
+      const destX = (Math.random() - 0.5) * 160;
+      const destY = (Math.random() - 0.5) * 160;
+      const duration = 800 + Math.random() * 600;
+      sparkleContainer.appendChild(sparkle);
+      sparkle.animate([
+        { transform: 'translate(0, 0) scale(0) rotate(0deg)', opacity: 0 },
+        { transform: 'translate(0, 0) scale(1.6) rotate(45deg)', opacity: 1, offset: 0.2 },
+        { transform: `translate(${destX}px, ${destY}px) scale(0) rotate(${Math.random() * 360}deg)`, opacity: 0 }
+      ], {
+        duration: duration,
+        easing: 'cubic-bezier(0.165, 0.84, 0.44, 1)'
+      }).onfinish = () => sparkle.remove();
+    }
+    function triggerCardSparkles(card) {
+      const rect = card.getBoundingClientRect();
+      const corners = [
+        { x: rect.left, y: rect.top }, { x: rect.right, y: rect.top },
+        { x: rect.left, y: rect.bottom }, { x: rect.right, y: rect.bottom }
+      ];
+      corners.forEach(p => {
+        for (let i = 0; i < 6; i++) {
+          setTimeout(() => spawnSparkle(p.x, p.y), i * 50);
+        }
+      });
+    }
+    let activeCardIndex = 0;
+    function cyclePolaroid() {
+      const cards = document.querySelectorAll('.polaroid-card');
+      if (cards.length === 0) return;
+      if (synth && synth.isPlaying) {
+        synth.playBansuriTone(523.25, synth.ctx.currentTime, 0.15);
+      }
+      const topCard = cards[activeCardIndex];
+      triggerCardSparkles(topCard);
+      const flyDirection = Math.random() > 0.5 ? '130%' : '-130%';
+      const randomRotation = Math.random() * 24 - 12;
+      topCard.style.transform = `translateX(${flyDirection}) rotate(${randomRotation}deg) scale(0.9)`;
+      topCard.style.opacity = '0';
+      setTimeout(() => {
+        activeCardIndex = (activeCardIndex + 1) % cards.length;
+        
+        cards.forEach((card, idx) => {
+          let relativeIdx = (idx - activeCardIndex + cards.length) % cards.length;
+          
+          if (relativeIdx === 0) {
+            card.style.transform = 'rotate(-4deg) scale(1)';
+            card.style.zIndex = '30';
+            card.style.opacity = '1';
+            card.classList.add('active-glow');
+          } else if (relativeIdx === 1) {
+            card.style.transform = 'rotate(3deg) scale(0.95) translateY(5px)';
+            card.style.zIndex = '20';
+            card.style.opacity = '1';
+            card.classList.remove('active-glow');
+          } else if (relativeIdx === 2) {
+            card.style.transform = 'rotate(-2deg) scale(0.9) translateY(10px)';
+            card.style.zIndex = '10';
+            card.style.opacity = '1';
+            card.classList.remove('active-glow');
+          } else {
+            card.style.transform = 'rotate(4deg) scale(0.85) translateY(15px)';
+            card.style.zIndex = '5';
+            card.style.opacity = '1';
+            card.classList.remove('active-glow');
+          }
+        });
+      }, 600); // Increased timeout to allow the "fly away" animation to progress further before re-stacking
+    }
+
+    let swipeStartX = 0;
+    let swipeEndX = 0;
+
+    function initPolaroidSwipe() {
+      const stack = document.querySelector('.relative.w-80.h-\\[380px\\]');
+      if (!stack) return;
+
+      stack.addEventListener('touchstart', (e) => {
+        swipeStartX = e.changedTouches[0].screenX;
+      }, { passive: true });
+
+      stack.addEventListener('touchend', (e) => {
+        swipeEndX = e.changedTouches[0].screenX;
+        handlePolaroidSwipe();
+      }, { passive: true });
+    }
+
+    function handlePolaroidSwipe() {
+      // Swipe threshold is 50 pixels
+      if (Math.abs(swipeStartX - swipeEndX) > 50) {
+        handleManualCycle();
+      }
+    }
+
+    // -------------------------------------------------------------
+    // CAKE CELEBRATION & CANDLES (PRADIPS) EXTINGUISHING
+    // -------------------------------------------------------------
+    let extinguishedCount = 0;
+    const candlesStatus = { 1: true, 2: true, 3: true };
+
+    function startCelebrationStage() {
+      changeLayer('layer-cards', 'layer-birthday');
+    }
+
+    function extinguishCandle(id) {
+      if (!candlesStatus[id]) return;
+      
+      candlesStatus[id] = false;
+      extinguishedCount++;
+
+      document.getElementById(`flame${id}`).style.display = 'none';
+      document.getElementById(`innerFlame${id}`).style.display = 'none';
+
+      // Confetti splash of marigold yellow / crimson particles
+      triggerPayeshConfetti(id);
+
+      if (extinguishedCount === 3) {
+        triggerCelebrationClimax();
+      }
+    }
+
+    // Payload explosion on blow using 3D love hearts
+    function triggerPayeshConfetti(pradipId) {
+      // Direct integration with 3D canvas to explode orange and gold heart meshes
+      for (let i = 0; i < 25; i++) {
+        const mat = new THREE.MeshPhongMaterial({
+          color: Math.random() > 0.45 ? 0xf59e0b : 0xe11d48, // Gold or crimson sparks
+          emissive: 0x7c2d12,
+          shininess: 60
+        });
+        const mesh = new THREE.Mesh(heartGeom, mat);
+        
+        // Spawn around the screen center matching SVG pradip positions roughly
+        mesh.position.set(
+          (pradipId - 2) * 1.8 + (Math.random() - 0.5) * 0.5,
+          1.5 + (Math.random() - 0.5) * 0.5,
+          4
+        );
+        mesh.scale.setScalar(Math.random() * 0.32 + 0.15);
+        mesh.userData = {
+          speedY: (Math.random() - 0.5) * 0.09,
+          speedX: (Math.random() - 0.5) * 0.09,
+          rotSpeedX: Math.random() * 0.15,
+          rotSpeedY: Math.random() * 0.15,
+          swaySpeed: Math.random() * 1.5,
+          swayOffset: Math.random() * Math.PI
+        };
+        scene.add(mesh);
+        particles.push(mesh);
+      }
+      if (synth && synth.isPlaying) {
+        synth.playBansuriTone(523.25, synth.ctx.currentTime, 0.2);
+      }
+    }
+    function triggerCelebrationClimax() {
+      document.getElementById('cakeInstruction').style.display = 'none';
+      let targetZ = 14;
+      const moveCamera = () => {
+        if (camera.position.z < targetZ) {
+          camera.position.z += 0.05;
+          requestAnimationFrame(moveCamera);
+        }
+      };
+      moveCamera();
+      const outro = document.getElementById('outroMessage');
+      outro.classList.remove('hidden');
+      setTimeout(() => {
+        outro.classList.remove('scale-95', 'opacity-0');
+        outro.classList.add('scale-100', 'opacity-100');
+      }, 600);
+
+      triggerCustomAlert("শুভ ২১তম জন্মদিন প্রিয় কাকলি! 🎉");
+    }
+
+    window.onload = function() {
+      init3DBackground();
+      animate3D();
+      initPolaroidSwipe();
+    };
+  </script>
+</body>
+</html>
